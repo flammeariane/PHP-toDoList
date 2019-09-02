@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-
+use phpDocumentor\Reflection\DocBlock\Description;
 
 class TaskController extends Controller
 {
@@ -52,12 +52,15 @@ class TaskController extends Controller
             'due_date'=>'required|date',
         ]);
 
+        $description = filter_var($request->description, FILTER_SANITIZE_STRING);
+        $nameFilter= filter_var($request->name,FILTER_DEFAULT);
+
         //create new task
         $task = new Task;
 
         // assign task from our request
-        $task->name = $request->name;
-        $task->description = $request->description;
+        $task->name = $nameFilter;
+        $task->description = $description;
         $task->due_date = $request->due_date;
 
         //save the data 
